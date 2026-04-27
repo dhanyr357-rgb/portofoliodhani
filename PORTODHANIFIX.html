@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rahmad Dhani — Creative Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --red:       #9B1C1C;
+    --red-light: #C0392B;
+    --green:     #4A5E2A;
+    --black:     #0A0A0A;
+    --dark:      #111111;
+    --dark2:     #1A1A1A;
+    --white:     #F5F0EB;
+    --gray:      #888888;
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  .cursor {
+    width:10px; height:10px; background:var(--red-light); border-radius:50%;
+    position:fixed; top:0; left:0; pointer-events:none; z-index:9999;
+    transform:translate(-50%,-50%); transition:transform .1s;
+  }
+  .cursor-ring {
+    width:36px; height:36px;
+    border:1px solid rgba(192,57,43,.45); border-radius:50%;
+    position:fixed; top:0; left:0; pointer-events:none; z-index:9998;
+    transform:translate(-50%,-50%); transition:all .18s ease;
+  }
+
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:24px 60px;
+  }
+  nav::before {
+    content:''; position:absolute; inset:0;
+    background:linear-gradient(to bottom,rgba(10,10,10,.93),transparent);
+    pointer-events:none;
+  }
+  .nav-logo {
+    font-family:'Cormorant Garamond',serif; font-size:1.4rem; font-weight:400;
+    color:var(--white); text-decoration:none; position:relative; z-index:1;
+  }
+  .nav-links { display:flex; gap:40px; list-style:none; position:relative; z-index:1; }
+  .nav-links a {
+    color:var(--gray); text-decoration:none; font-size:.78rem;
+    letter-spacing:.12em; text-transform:uppercase; transition:color .3s;
+  }
+  .nav-links a:hover { color:var(--white); }
+
+  #hero {
+    height:100vh; display:flex; align-items:flex-end;
+    padding:0 60px 80px; position:relative; overflow:hidden;
+  }
+  .hero-bg {
+    position:absolute; inset:0;
+    background:linear-gradient(135deg,#1a0a0a 0%,#0A0A0A 50%,#0d160a 100%);
+  }
+  .hero-dots {
+    position:absolute; top:24%; left:5%;
+    display:grid; grid-template-columns:repeat(6,1fr); gap:8px; opacity:.35;
+  }
+  .hero-dots span { width:4px; height:4px; border-radius:50%; background:var(--red); }
+  .hero-star {
+    position:absolute; top:28%; right:13%;
+    font-size:6rem; color:var(--green); opacity:.65;
+    animation:spin-slow 22s linear infinite; user-select:none;
+  }
+  @keyframes spin-slow { to { transform:rotate(360deg); } }
+
+  .hero-photo-panel {
+    position:absolute; right:0; top:0; bottom:0; width:44%;
+    overflow:hidden; background:var(--dark2);
+    clip-path:polygon(9% 0, 100% 0, 100% 100%, 0% 100%);
+  }
+  .hero-photo-panel img {
+    width:100%; height:100%; object-fit:cover; display:block;
+    filter:grayscale(25%) contrast(1.08); opacity:.65;
+  }
+
+  .hero-content { position:relative; z-index:2; max-width:52%; }
+  .hero-eyebrow {
+    font-size:.7rem; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--red-light); margin-bottom:18px;
+  }
+  .hero-name {
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(4rem,7.5vw,7.5rem);
+    font-weight:300; line-height:.93; margin-bottom:28px;
+  }
+  .hero-name em { font-style:italic; color:var(--red-light); display:block; }
+  .hero-tagline {
+    font-size:.88rem; color:var(--gray);
+    max-width:360px; line-height:1.85; margin-bottom:40px;
+  }
+  .hero-cta {
+    display:inline-flex; align-items:center; gap:12px;
+    color:var(--white); text-decoration:none; font-size:.78rem;
+    letter-spacing:.15em; text-transform:uppercase;
+    border-bottom:1px solid rgba(255,255,255,.28);
+    padding-bottom:4px; transition:border-color .3s;
+  }
+  .hero-cta:hover { border-color:var(--red-light); }
+  .hero-cta svg { width:18px; transition:transform .3s; }
+  .hero-cta:hover svg { transform:translateX(4px); }
+
+  .marquee-wrap {
+    overflow:hidden; background:var(--red);
+    padding:14px 0; white-space:nowrap;
+  }
+  .marquee-track {
+    display:inline-flex; gap:56px;
+    animation:marquee 18s linear infinite;
+  }
+  .marquee-track span {
+    font-family:'Cormorant Garamond',serif; font-size:1.1rem;
+    font-style:italic; color:rgba(255,255,255,.85); letter-spacing:.05em;
+  }
+  .marquee-track .dot {
+    font-family:'DM Sans',sans-serif; font-style:normal;
+    font-size:.45rem; opacity:.55; align-self:center;
+  }
+  @keyframes marquee { to { transform:translateX(-50%); } }
+
+  section { padding:120px 60px; }
+  .section-label {
+    font-size:.68rem; letter-spacing:.25em; text-transform:uppercase;
+    color:var(--red-light); margin-bottom:14px;
+    display:flex; align-items:center; gap:14px;
+  }
+  .section-label::after {
+    content:''; flex:1; height:1px;
+    background:rgba(155,28,28,.3); max-width:56px;
+  }
+  .section-title {
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(2.8rem,5vw,5rem);
+    font-weight:300; line-height:1; margin-bottom:56px;
+  }
+  .section-title em { font-style:italic; color:var(--red-light); }
+
+  #about {
+    background:var(--dark);
+    display:grid; grid-template-columns:1fr 1fr;
+    gap:80px; align-items:center;
+  }
+  .about-photo {
+    position:relative; aspect-ratio:4/5;
+    overflow:hidden; border:1px solid rgba(255,255,255,.05);
+  }
+  .about-photo img {
+    width:100%; height:100%; object-fit:cover;
+    filter:grayscale(15%); display:block;
+  }
+  .about-photo .corner-red {
+    position:absolute; bottom:0; right:0;
+    width:56px; height:56px; background:var(--red); pointer-events:none;
+  }
+  .about-text p {
+    font-size:.93rem; line-height:1.9;
+    color:rgba(245,240,235,.7); margin-bottom:18px;
+  }
+  .tool-list { display:flex; gap:10px; flex-wrap:wrap; margin-top:36px; }
+  .tool-tag {
+    border:1px solid rgba(155,28,28,.4); padding:6px 16px;
+    font-size:.7rem; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--gray); transition:all .3s;
+  }
+  .tool-tag:hover { border-color:var(--red); color:var(--white); }
+  .about-stats {
+    display:flex; gap:48px; margin-top:40px; padding-top:40px;
+    border-top:1px solid rgba(255,255,255,.07);
+  }
+  .stat-num {
+    font-family:'Cormorant Garamond',serif; font-size:3rem;
+    font-weight:300; color:var(--red-light); line-height:1;
+  }
+  .stat-label {
+    font-size:.7rem; text-transform:uppercase;
+    letter-spacing:.12em; color:var(--gray); margin-top:6px;
+  }
+
+#projects { background:var(--black); }
+.projects-header {
+  display:flex; justify-content:space-between; align-items:flex-end;
+  margin-bottom:56px;
+}
+.projects-header .section-title { margin-bottom:0; }
+
+.projects-grid {
+  display:grid;
+  grid-template-columns: 1fr 2fr;
+  gap:3px;
+  align-items: stretch;
+}
+
+.projects-grid > * {
+  margin: 0;
+  padding: 0;
+}
+
+.project-card:nth-child(1) {
+  grid-column: 1;
+  grid-row: 1;
+  position:relative; aspect-ratio:9/16;
+  overflow:hidden; background:var(--dark2);
+}
+
+.project-card:nth-child(2) {
+  grid-column: 1;
+  grid-row: 2;
+  position:relative; aspect-ratio:9/16;
+  overflow:hidden; background:var(--dark2);
+}
+
+.project-card:nth-child(3) {
+  grid-column: 2;
+  grid-row: 1;
+  position:relative;
+  width: 100%;
+  height: 100%;
+  overflow:hidden; background:var(--dark2);
+}
+
+.projects-right-bottom {
+  grid-column: 2;
+  grid-row: 2;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:3px;
+  margin-top: 0;
+}
+.projects-right-bottom .project-card {
+  position:relative; aspect-ratio:1/1;
+  overflow:hidden; background:var(--dark2);
+}
+
+.project-card img {
+  width:100%; height:100%; object-fit:cover; display:block;
+  transition:transform .6s ease, filter .4s;
+  filter:grayscale(20%);
+}
+.project-card:hover img { transform:scale(1.07); filter:grayscale(0%); }
+.project-overlay {
+  position:absolute; inset:0;
+  background:linear-gradient(to top,rgba(10,10,10,.95) 0%,transparent 60%);
+  padding:22px; display:flex; flex-direction:column; justify-content:flex-end;
+  opacity:0; transform:translateY(14px); transition:all .4s ease;
+}
+.project-card:hover .project-overlay { opacity:1; transform:translateY(0); }
+.proj-cat {
+  font-size:.62rem; letter-spacing:.15em; text-transform:uppercase;
+  color:var(--red-light); margin-bottom:5px;
+}
+.proj-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.35rem; font-weight:300; color:var(--white);
+}
+
+  #contact {
+    background:var(--dark);
+    display:grid; grid-template-columns:1.2fr 1fr;
+    gap:100px; align-items:center;
+  }
+  .contact-heading {
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(3.5rem,6vw,7rem);
+    font-weight:300; line-height:.93; margin-bottom:40px;
+  }
+  .contact-heading em { font-style:italic; color:var(--red-light); display:block; }
+  .contact-intro {
+    font-size:.88rem; color:var(--gray);
+    line-height:1.85; margin-bottom:44px; max-width:380px;
+  }
+  .contact-links { display:flex; flex-direction:column; gap:16px; }
+  .contact-item {
+    display:flex; align-items:center; gap:20px;
+    text-decoration:none; color:var(--white);
+    padding:18px 22px; border:1px solid rgba(255,255,255,.06);
+    transition:all .3s;
+  }
+  .contact-item:hover { border-color:rgba(155,28,28,.5); background:rgba(155,28,28,.05); }
+  .ci-icon {
+    width:40px; height:40px; flex-shrink:0;
+    border:1px solid rgba(155,28,28,.35);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .ci-icon svg { width:16px; color:var(--red-light); }
+  .ci-label { font-size:.62rem; letter-spacing:.15em; text-transform:uppercase; color:var(--gray); margin-bottom:3px; }
+  .ci-value { font-size:.92rem; }
+
+  .contact-photo {
+    position:relative; aspect-ratio:3/4;
+    overflow:hidden; background:var(--dark2);
+  }
+  .contact-photo img { width:100%; height:100%; object-fit:cover; display:block; }
+  .contact-photo::after {
+    content:''; position:absolute; top:-12px; right:-12px;
+    width:45%; height:45%; background:var(--red); z-index:-1;
+  }
+
+  footer {
+    background:var(--black); padding:36px 60px;
+    display:flex; justify-content:space-between; align-items:center;
+    border-top:1px solid rgba(255,255,255,.05);
+  }
+  footer p { font-size:.73rem; color:var(--gray); letter-spacing:.07em; }
+  .footer-star { font-size:1.6rem; color:var(--green); opacity:.55; user-select:none; }
+
+  .fade-up { opacity:0; transform:translateY(30px); transition:opacity .8s ease,transform .8s ease; }
+  .fade-up.visible { opacity:1; transform:translateY(0); }
+
+  @media (max-width:900px) {
+    nav { padding:18px 24px; }
+    section { padding:80px 24px; }
+    #hero { padding:0 24px 60px; }
+    .hero-photo-panel { display:none; }
+    .hero-content { max-width:100%; }
+    #about, #contact { grid-template-columns:1fr; gap:40px; }
+    .projects-grid { grid-template-columns:1fr 1fr; }
+    footer { padding:28px 24px; flex-wrap:wrap; gap:12px; }
+  }
+  @media (max-width:560px) {
+    .projects-grid { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor"      id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="#hero" class="nav-logo">RD.</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Work</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-dots">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <div class="hero-star">✳</div>
+
+  <div class="hero-photo-panel">
+    <img
+      src="gambar1.jpeg"
+      alt="Rahmad Dhani — Foto Hero"
+    >
+  </div>
+
+  <div class="hero-content fade-up">
+    <p class="hero-eyebrow">Creative Portfolio 2025</p>
+    <h1 class="hero-name">Rahmad<br><em>Dhani</em></h1>
+    <p class="hero-tagline">
+      Informatics student &amp; visual designer — blending logic with artistry
+      through UI/UX, poster design, and digital experiences.
+    </p>
+    <a href="#projects" class="hero-cta">
+      View My Work
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+      </svg>
+    </a>
+  </div>
+</section>
+
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>Figma</span><span class="dot">◆</span>
+    <span>Photoshop</span><span class="dot">◆</span>
+    <span>Canva</span><span class="dot">◆</span>
+    <span>Informatics</span><span class="dot">◆</span>
+    <span>Udayana</span><span class="dot">◆</span>
+    <span>Figma</span><span class="dot">◆</span>
+    <span>Photoshop</span><span class="dot">◆</span>
+    <span>Canva</span><span class="dot">◆</span>
+    <span>Informatics</span><span class="dot">◆</span>
+    <span>Udayana</span><span class="dot">◆</span>
+    <span>Figma</span><span class="dot">◆</span>
+    <span>Photoshop</span><span class="dot">◆</span>
+  </div>
+</div>
+
+
+<section id="about">
+
+  <div class="about-photo fade-up">
+    <img
+      src="gambar 2.png"
+      alt="Rahmad Dhani — About Me"
+    >
+    <div class="corner-red"></div>
+  </div>
+
+  <div class="about-text fade-up">
+    <p class="section-label">About Me</p>
+    <h2 class="section-title">Who <em>I Am</em></h2>
+    <p>
+      I am an Informatics student at Udayana University with a strong passion
+      for creativity and visual design. While my academic journey revolves around
+      technology and problem-solving, I've always been deeply interested in
+      design, drawing, and editing.
+    </p>
+    <p>
+      Through various projects, I've developed both analytical and creative
+      skills — combining logic with artistry. I believe this intersection between
+      informatics and design is where I can express myself best, especially in
+      the world of UI/UX.
+    </p>
+    <div class="tool-list">
+      <span class="tool-tag">Figma</span>
+      <span class="tool-tag">Photoshop</span>
+      <span class="tool-tag">Canva</span>
+      <span class="tool-tag">UI/UX</span>
+      <span class="tool-tag">Web Design</span>
+    </div>
+    <div class="about-stats">
+      <div>
+        <div class="stat-num" id="statProjects">0+</div>
+        <div class="stat-label">Projects</div>
+      </div>
+      <div>
+        <div class="stat-num">2+</div>
+        <div class="stat-label">Years Learning</div>
+      </div>
+      <div>
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Curiosity</div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<section id="projects">
+  <div class="projects-header fade-up">
+    <div>
+      <p class="section-label">Selected Work</p>
+      <h2 class="section-title">Project <em>Highlights</em></h2>
+    </div>
+  </div>
+
+<div class="projects-grid">
+
+  <div class="project-card fade-up">
+    <img src="prototype.png" alt="Proyek 1">
+    <div class="project-overlay">
+      <p class="proj-cat">Design Prototype Apps</p>
+      <h3 class="proj-title">Eco life E-Wallet</h3>
+    </div>
+  </div>
+
+  <div class="project-card fade-up">
+    <img src="proto2.png" alt="Proyek 2">
+    <div class="project-overlay">
+      <p class="proj-cat">Prototype App</p>
+      <h3 class="proj-title">Eco-Life E-Wallet</h3>
+    </div>
+  </div>
+
+  <div class="project-card fade-up">
+    <img src="webbb.png" alt="Proyek 3">
+    <div class="project-overlay">
+      <p class="proj-cat">Web Design</p>
+      <h3 class="proj-title">Anti-Judi Extension</h3>
+    </div>
+  </div>
+
+  <div class="projects-right-bottom">
+
+    <div class="project-card fade-up">
+      <img src="keuangan.png" alt="Proyek 4">
+      <div class="project-overlay">
+        <p class="proj-cat">Digital Poster</p>
+        <h3 class="proj-title">Kampanye Administrasi</h3>
+      </div>
+    </div>
+
+    <div class="project-card fade-up">
+      <img src="kartini.png" alt="Proyek 5">
+      <div class="project-overlay">
+        <p class="proj-cat">Poster Design</p>
+        <h3 class="proj-title">Hari Kartini</h3>
+      </div>
+    </div>
+
+    <div class="project-card fade-up">
+      <img src="comingsoon.png" alt="Proyek 6">
+      <div class="project-overlay">
+        <p class="proj-cat">Poster Design</p>
+        <h3 class="proj-title">Coming Soon Startalk</h3>
+      </div>
+    </div>
+
+    <div class="project-card fade-up">
+      <img src="dpm.png" alt="Proyek 7">
+      <div class="project-overlay">
+        <p class="proj-cat">Poster Design</p>
+        <h3 class="proj-title">DPM PM UDAYANA</h3>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</section>
+
+<section id="contact">
+
+  <div class="fade-up">
+    <p class="section-label">Get In Touch</p>
+    <h2 class="contact-heading">Let's<br><em>Connect</em></h2>
+    <p class="contact-intro">
+      Open for collaborations, internship opportunities, and creative projects.
+      Don't hesitate to reach out!
+    </p>
+
+    <div class="contact-links">
+
+      <a href="tel:+6282289197277" class="contact-item">
+        <div class="ci-icon">
+          <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="ci-label">Phone / WhatsApp</div>
+          <div class="ci-value">+628 2289 1972 77</div>
+        </div>
+      </a>
+
+      <a href="mailto:dhanyr357@gmail.com" class="contact-item">
+        <div class="ci-icon">
+          <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/>
+          </svg>
+        </div>
+        <div>
+          <div class="ci-label">Email</div>
+          <div class="ci-value">dhanyr357@gmail.com</div>
+        </div>
+      </a>
+
+<a href="https://www.instagram.com/dhanyyr_/" target="_blank" class="contact-item">
+  <div class="ci-icon">
+    <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+      <circle cx="12" cy="12" r="4"/>
+      <circle cx="17.5" cy="6.5" r=".5" fill="currentColor"/>
+    </svg>
+  </div>
+  <div>
+    <div class="ci-label">Instagram</div>
+    <div class="ci-value">@dhanyyr_</div>
+  </div>
+</a>
+
+      <a href="#" class="contact-item">
+        <div class="ci-icon">
+          <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/>
+            <path d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="ci-label">Lokasi</div>
+          <div class="ci-value">Udayana University, Bali</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <div class="contact-photo fade-up">
+    <img
+      src="terakhir.png"
+      alt="Rahmad Dhani — Contact Photo"
+    >
+  </div>
+
+</section>
+
+<footer>
+  <p>© 2025 Rahmad Dhani — Udayana University</p>
+  <span class="footer-star">✳</span>
+  <p>Informatics &amp; Creative Design</p>
+</footer>
+
+<script>
+  const cursor     = document.getElementById('cursor');
+  const cursorRing = document.getElementById('cursorRing');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+    setTimeout(() => {
+      cursorRing.style.left = e.clientX + 'px';
+      cursorRing.style.top  = e.clientY + 'px';
+    }, 60);
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting)
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  const statEl = document.getElementById('statProjects');
+  const cntObs = new IntersectionObserver(([e]) => {
+    if (e.isIntersecting) {
+      let n = 0;
+      const t = setInterval(() => {
+        n++;
+        statEl.textContent = n + '+';
+        if (n >= 10) { clearInterval(t); }
+      }, 90);
+      cntObs.disconnect();
+    }
+  });
+  cntObs.observe(statEl);
+</script>
+</body>
+</html>
